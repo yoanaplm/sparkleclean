@@ -1,7 +1,7 @@
 package com.sparkleclean.sparkleclean.user.model;
 
 import jakarta.persistence.*;
-import org.hibernate.validator.constraints.UUID;
+import java.util.UUID;
 
 @Entity
 @Table(name="users")
