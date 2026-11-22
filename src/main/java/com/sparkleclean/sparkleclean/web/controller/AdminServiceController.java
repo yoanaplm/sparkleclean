@@ -61,6 +61,13 @@ public class AdminServiceController {
         if (bindingResult.hasErrors()) {
             return error;
         }
+        try {
+            cleaningServiceService.update(id,serviceDto);
+
+        }catch (RuntimeException exception){
+            bindingResult.reject("service.update.failed",exception.getMessage());
+            return error;
+        }
         return new ModelAndView("redirect:/admin/services");
 
 }
