@@ -1,7 +1,10 @@
 package com.sparkleclean.sparkleclean.web.controller;
 
+import com.sparkleclean.sparkleclean.user.model.User;
 import com.sparkleclean.sparkleclean.user.service.UserService;
+import com.sparkleclean.sparkleclean.web.dto.UserLoginDto;
 import com.sparkleclean.sparkleclean.web.dto.UserRegisterDto;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,6 +52,38 @@ public class IndexController {
                 return new ModelAndView("register");
             }
             return new ModelAndView("redirect:/login");
+        }
+
+        @GetMapping("/login")
+    public ModelAndView getLoginPage(){
+        ModelAndView modelAndView = new ModelAndView("login");
+        modelAndView.addObject("loginDto",new UserLoginDto());
+        return modelAndView;
+        }
+
+        @PostMapping("/login")
+    public ModelAndView login(@Valid @ModelAttribute("loginDto") UserLoginDto loginDto,
+                              BindingResult bindingResult, HttpSession session){
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("login");
+
+        }
+        try {
+            User user = userService.login(loginDto);
+            session.setAttribute("userId",user.getId());
+            session.setAttribute("username",user.getUsername());
+            session.setAttribute("role",user.getRole());
+
+        }catch (RuntimeException exception){
+            bindingResult.reject("login.failed",exception.getMessage());
+            return new ModelAndView("login");
+        }
+        return new ModelAndView("redirect:/");
+        }
+        @PostMapping("/logout")
+    public ModelAndView logout(HttpSession session){
+        session.invalidate();
+        return new ModelAndView("redirect:/");
         }
 
     }

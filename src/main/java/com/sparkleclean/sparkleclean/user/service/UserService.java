@@ -3,6 +3,7 @@ package com.sparkleclean.sparkleclean.user.service;
 import com.sparkleclean.sparkleclean.user.model.User;
 import com.sparkleclean.sparkleclean.user.model.UserRole;
 import com.sparkleclean.sparkleclean.user.repository.UserRepository;
+import com.sparkleclean.sparkleclean.web.dto.UserLoginDto;
 import com.sparkleclean.sparkleclean.web.dto.UserRegisterDto;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,5 +42,14 @@ public class UserService {
         user.setRole(UserRole.CLIENT);
 
         userRepository.save(user);
+    }
+
+    public User login(UserLoginDto dto){
+        User user = userRepository.findByUsername(dto.getUsername())
+                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+
+        if(!passwordEncoder.matches(dto.getPassword(),user.getPassword())){
+            throw  new RuntimeException("Invalid username or password");
+        }return user;
     }
 }

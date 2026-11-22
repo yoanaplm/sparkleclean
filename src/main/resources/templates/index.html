@@ -6,6 +6,15 @@
 </head>
 <body>
 <h1>Sparkle Clean</h1>
-<a th:href="@{/register}">Register</a>
+<div th:if="${session.userId == null}">
+    <a th:href="@{/login}">Login</a>
+    <a th:href="@{/register}">Register</a>
+</div>
+<div th:if="${session.userId != null}">
+    <p th:text="'Welcome back, ' + ${session.username}"></p>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
 </body>
 </html>
