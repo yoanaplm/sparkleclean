@@ -52,4 +52,15 @@ public class UserService {
             throw  new RuntimeException("Invalid username or password");
         }return user;
     }
+    public void createAdminIfMissing(String username,String email, String rawPassword){
+        if( userRepository.findByUsername(username).isPresent()){
+            return;
+        }
+        User admin =new User();
+        admin.setUsername(username);
+        admin.setEmail(email);
+        admin.setPassword(passwordEncoder.encode(rawPassword));
+        admin.setRole(UserRole.ADMIN);
+        userRepository.save(admin);
+    }
 }
