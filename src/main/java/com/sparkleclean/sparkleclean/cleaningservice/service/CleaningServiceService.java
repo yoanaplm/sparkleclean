@@ -36,6 +36,18 @@ public class CleaningServiceService {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
 
     }
+
+
+    public CleaningServiceDto getDtoById(UUID id){
+        CleaningService cleaningService = getById(id);
+        CleaningServiceDto dto = new CleaningServiceDto();
+        dto.setName(cleaningService.getName());
+        dto.setDescription(cleaningService.getDescription());
+        dto.setPrice(cleaningService.getPrice());
+        dto.setDurationMinutes(cleaningService.getDurationMinutes());
+
+        return dto;
+    }
     @Transactional
     public void update(UUID id, CleaningServiceDto dto){
         CleaningService cleaningService=getById(id);

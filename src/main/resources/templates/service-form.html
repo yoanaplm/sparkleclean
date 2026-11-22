@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Form</title>
+</head>
+<body>
+
+<h1 th:text="${title}">Service</h1>
+<a th:href="@{/admin/services}">Back</a>
+<form th:action="@{${formAction}}" th:object="${serviceDto}" method="post" novalidate>
+    <p th:each="message : ${#fields.globalErrors()}" th:text="${message}"></p>
+    <div>
+        <label for="name">Name</label>
+        <input id="name" type="text" th:field="*{name}">
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    </div>
+    <div>
+        <label for="description">Description</label>
+        <textarea id="description" rows="4" th:field="*{description}"></textarea>
+        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+    </div>
+    <div>
+        <label for="price">Price</label>
+        <input id="price" type="number"  th:field="*{price}">
+        <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+
+    </div>
+    <div>
+        <label for = "durationMinutes">Duration (minutes)</label>
+        <input id="durationMinutes" type="number"  th:field="*{durationMinutes}">
+        <span th:if="${#fields.hasErrors('durationMinutes')}" th:errors="*{durationMinutes}"></span>
+    </div>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>
