@@ -1,5 +1,6 @@
 package com.sparkleclean.sparkleclean.user.service;
 
+import com.sparkleclean.sparkleclean.exception.ResourceNotFoundException;
 import com.sparkleclean.sparkleclean.user.model.User;
 import com.sparkleclean.sparkleclean.user.model.UserRole;
 import com.sparkleclean.sparkleclean.user.repository.UserRepository;
@@ -8,8 +9,9 @@ import com.sparkleclean.sparkleclean.web.dto.UserRegisterDto;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import com.sparkleclean.sparkleclean.exception.ResourceNotFoundException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -62,5 +64,9 @@ public class UserService {
         admin.setPassword(passwordEncoder.encode(rawPassword));
         admin.setRole(UserRole.ADMIN);
         userRepository.save(admin);
+    }
+
+    public User getById(UUID id){
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found."));
     }
 }

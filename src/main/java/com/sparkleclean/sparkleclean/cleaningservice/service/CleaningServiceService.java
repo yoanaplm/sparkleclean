@@ -2,6 +2,7 @@ package com.sparkleclean.sparkleclean.cleaningservice.service;
 
 import com.sparkleclean.sparkleclean.cleaningservice.model.CleaningService;
 import com.sparkleclean.sparkleclean.cleaningservice.repository.CleaningServiceRepository;
+import com.sparkleclean.sparkleclean.exception.ResourceNotFoundException;
 import com.sparkleclean.sparkleclean.web.dto.CleaningServiceDto;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class CleaningServiceService {
     }
 
     public CleaningService getById (UUID id){
-        return repository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found"));
 
     }
 
