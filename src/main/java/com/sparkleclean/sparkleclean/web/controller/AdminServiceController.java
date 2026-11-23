@@ -2,6 +2,7 @@ package com.sparkleclean.sparkleclean.web.controller;
 
 import com.sparkleclean.sparkleclean.cleaningservice.service.CleaningServiceService;
 import com.sparkleclean.sparkleclean.exception.ServiceAlreadyExistsException;
+import com.sparkleclean.sparkleclean.exception.ServiceInUseException;
 import com.sparkleclean.sparkleclean.web.dto.CleaningServiceDto;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -74,11 +75,21 @@ public class AdminServiceController {
 }
 @PostMapping("/{id}/delete")
 public ModelAndView delete(@PathVariable UUID id){
-    cleaningServiceService.delete(id);
+        try{
+            cleaningServiceService.delete(id);
+        }catch (ServiceInUseException exception){
+            ModelAndView modelAndView = getServicesPage();
+            modelAndView.addObject("errorMessage",exception.getMessage());
+            return modelAndView;
+        }
+
     return  new ModelAndView("redirect:/admin/services");
 
 
     }
+
+
+
     private ModelAndView formView(String title,String formAction){
         ModelAndView modelAndView = new ModelAndView("service-form");
         modelAndView.addObject("title",title);

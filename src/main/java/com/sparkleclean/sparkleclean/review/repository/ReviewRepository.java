@@ -17,4 +17,9 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
 
     @Query("select count(r) > 0 from Review r where r.user.id = :userId and r.cleaningService.id = :serviceId")
     boolean existsByUserAndService(@Param("userId") UUID userId, @Param("serviceId") UUID serviceId);
+
+
+    @Query("select count(r) > 0 from Review r where r.cleaningService.id = :serviceId")
+    boolean existsByServiceId(@Param("serviceId") UUID serviceId);
+
 }

@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Cleaning services</h1>
+<p th:if="${errorMessage != null}" th:text="${errorMessage}"></p>
 <a th:href="@{/}">Home</a>
 <a th:href="@{/admin/services/create}">Add a service</a>
 <p th:if="${services.isEmpty()}" >No services</p>
