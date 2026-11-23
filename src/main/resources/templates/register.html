@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <h1>Create account</h1>
+<a th:href="@{/}">Home</a> <a th:href="@{/login}">Already registered? Log in</a>
 
 <form th:action="@{/register}" th:object="${registerDto}" method="post" novalidate>
     <p th:each="message : ${#fields.globalErrors()}" th:text="${message}"></p>

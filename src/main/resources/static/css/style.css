@@ -1,0 +1,5 @@
+.error,
+form span,
+form >p {
+    color: red;
+}
