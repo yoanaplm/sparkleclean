@@ -40,5 +40,35 @@
 
     </form>
 </div>
+
+<h2>Reviews</h2>
+<p th:if="${reviews.isEmpty()}">No reviews yet</p>
+<div th:each="review : ${reviews}">
+    <p th:text="${review.user.username} + ' - ' + ${review.rating} + '/5'"></p>
+    <p th:text="${review.comment}"></p>
+
+</div>
+
+<div th:if="${session.role.name() == 'CLIENT'}">
+    <h2>Leave a review</h2>
+
+    <form th:action="@{/services/{id}/review(id=${service.id})}" th:object="${reviewDto}" method="post" novalidate>
+        <p th:each="message : ${#fields.globalErrors()}" th:text="${message}"></p>
+
+        <div>
+            <label for="rating">Rating (1-5)</label>
+            <input id="rating" type="number" th:field="*{rating}">
+            <span th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></span>
+        </div>
+
+        <div>
+            <label for="comment">Comment</label>
+            <textarea id="comment" rows="3" th:field="*{comment}"></textarea>
+            <span th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></span>
+        </div>
+
+        <button type="submit">Send review</button>
+    </form>
+</div>
 </body>
 </html>
