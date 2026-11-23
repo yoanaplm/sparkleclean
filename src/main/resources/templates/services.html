@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Services</title>
+</head>
+<body>
+<h1>Our cleaning services</h1>
+<a th:href="@{/}">Home</a>
+
+<p th:if="${services.isEmpty()}">No services are available.</p>
+<div th:each="service : ${services}">
+    <h2 th:text="${service.name}"></h2>
+    <p th:text="${service.price} + ' - ' + ${service.durationMinutes} + 'minutes'"></p>
+    <a th:href ="@{/services/{id}(id=${service.id})}">View details</a>
+
+</div>
+</body>
+</html>

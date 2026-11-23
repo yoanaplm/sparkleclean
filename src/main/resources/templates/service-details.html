@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Service Details</title>
+
+</head>
+
+<body>
+<a th:href="@{/services}">Back</a>
+
+<h1 th:text="${service.name}"></h1>
+<p th:text="${service.description}"></p>
+<p th:text="'Price: ' + ${service.price}"></p>
+<p th:text="'Duration: ' + ${service.durationMinutes} + ' minutes'"></p>
+
+</body>
+</html>
