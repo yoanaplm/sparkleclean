@@ -3,6 +3,7 @@ package com.sparkleclean.sparkleclean.cleaningservice.service;
 import com.sparkleclean.sparkleclean.cleaningservice.model.CleaningService;
 import com.sparkleclean.sparkleclean.cleaningservice.repository.CleaningServiceRepository;
 import com.sparkleclean.sparkleclean.exception.ResourceNotFoundException;
+import com.sparkleclean.sparkleclean.exception.ServiceAlreadyExistsException;
 import com.sparkleclean.sparkleclean.web.dto.CleaningServiceDto;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class CleaningServiceService {
     @Transactional
     public void create (CleaningServiceDto dto){
         if (repository.findByName(dto.getName()).isPresent()) {
-            throw new RuntimeException("Cleaning service already exists.");
+            throw new ServiceAlreadyExistsException("Cleaning service already exists.");
         }
         CleaningService cleaningService = new CleaningService();
         applyChanges(cleaningService,dto);

@@ -1,5 +1,8 @@
 package com.sparkleclean.sparkleclean.web.controller;
 
+import com.sparkleclean.sparkleclean.exception.InvalidCredentialsException;
+import com.sparkleclean.sparkleclean.exception.PasswordMismatchException;
+import com.sparkleclean.sparkleclean.exception.UserAlreadyExistsException;
 import com.sparkleclean.sparkleclean.user.model.User;
 import com.sparkleclean.sparkleclean.user.service.UserService;
 import com.sparkleclean.sparkleclean.web.dto.UserLoginDto;
@@ -47,7 +50,7 @@ public class IndexController {
 
                 userService.register(registerDto);
 
-            } catch (RuntimeException exception) {
+            } catch (PasswordMismatchException  | UserAlreadyExistsException exception) {
                 bindingResult.reject("registration.failed", exception.getMessage());
                 return new ModelAndView("register");
             }
@@ -74,7 +77,7 @@ public class IndexController {
             session.setAttribute("username",user.getUsername());
             session.setAttribute("role",user.getRole());
 
-        }catch (RuntimeException exception){
+        }catch (InvalidCredentialsException exception){
             bindingResult.reject("login.failed",exception.getMessage());
             return new ModelAndView("login");
         }

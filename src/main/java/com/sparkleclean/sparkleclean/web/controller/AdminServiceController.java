@@ -1,6 +1,7 @@
 package com.sparkleclean.sparkleclean.web.controller;
 
 import com.sparkleclean.sparkleclean.cleaningservice.service.CleaningServiceService;
+import com.sparkleclean.sparkleclean.exception.ServiceAlreadyExistsException;
 import com.sparkleclean.sparkleclean.web.dto.CleaningServiceDto;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -42,7 +43,7 @@ public class AdminServiceController {
         }
         try{
             cleaningServiceService.create(serviceDto);
-        } catch (RuntimeException exception) {
+        } catch (ServiceAlreadyExistsException exception) {
             bindingResult.reject("service.create.failed", exception.getMessage());
             return error;
         }
@@ -64,7 +65,7 @@ public class AdminServiceController {
         try {
             cleaningServiceService.update(id,serviceDto);
 
-        }catch (RuntimeException exception){
+        }catch (ServiceAlreadyExistsException exception){
             bindingResult.reject("service.update.failed",exception.getMessage());
             return error;
         }

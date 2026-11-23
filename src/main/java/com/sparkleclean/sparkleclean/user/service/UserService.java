@@ -1,6 +1,6 @@
 package com.sparkleclean.sparkleclean.user.service;
 
-import com.sparkleclean.sparkleclean.exception.ResourceNotFoundException;
+import com.sparkleclean.sparkleclean.exception.*;
 import com.sparkleclean.sparkleclean.user.model.User;
 import com.sparkleclean.sparkleclean.user.model.UserRole;
 import com.sparkleclean.sparkleclean.user.repository.UserRepository;
@@ -9,7 +9,7 @@ import com.sparkleclean.sparkleclean.web.dto.UserRegisterDto;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.sparkleclean.sparkleclean.exception.ResourceNotFoundException;
+
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,16 +26,16 @@ public class UserService {
     @Transactional
     public void register (UserRegisterDto dto ){
         if(!dto.getPassword().equals(dto.getConfirmPassword())){
-            throw new RuntimeException("Passwords do not match");
+            throw new PasswordMismatchException("Passwords do not match");
         }
 
         Optional<User> optionalUser=userRepository.findByUsername(dto.getUsername());
         if(optionalUser.isPresent()){
-            throw new RuntimeException("A user with this username already exists");
+            throw new UserAlreadyExistsException("A user with this username already exists");
 
         }
         if(userRepository.existsByEmail(dto.getEmail())){
-            throw new RuntimeException("A user with this email already exists");
+            throw new UserAlreadyExistsException("A user with this email already exists");
         }
         User user = new User();
         user.setUsername(dto.getUsername());
@@ -48,10 +48,10 @@ public class UserService {
 
     public User login(UserLoginDto dto){
         User user = userRepository.findByUsername(dto.getUsername())
-                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid username or password"));
 
         if(!passwordEncoder.matches(dto.getPassword(),user.getPassword())){
-            throw  new RuntimeException("Invalid username or password");
+            throw  new InvalidCredentialsException("Invalid username or password");
         }return user;
     }
     public void createAdminIfMissing(String username,String email, String rawPassword){
