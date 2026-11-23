@@ -13,6 +13,32 @@
 <p th:text="${service.description}"></p>
 <p th:text="'Price: ' + ${service.price}"></p>
 <p th:text="'Duration: ' + ${service.durationMinutes} + ' minutes'"></p>
+<div th:if="${session.role.name() == 'CLIENT'}">
+    <h2>Book</h2>
+    <form th:action="@{/services/{id}/book(id=${service.id})}" th:object="${bookingDto}" method="post" novalidate>
+        <p th:each ="message : ${#fields.globalErrors()}" th:text="${message}"></p>
+    <div>
+        <label for="scheduledAt">Date and time</label>
+        <input id="scheduledAt" type ="datetime-local" th:field="*{scheduledAt}" ></input>
+        <span th:if="${#fields.hasErrors('scheduledAt')}" th:errors="*{scheduledAt}"></span>
+    </div>
 
+        <div>
+            <label for="address">Address</label>
+            <input id="address" type="text" th:field="*{address}">
+            <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
+        </div>
+
+        <div>
+            <label for="notes">Notes</label>
+            <textarea id="notes" rows="3" th:field="*{notes}"></textarea>
+       <span th:if="${#fields.hasErrors('notes')}" th:errors="*{notes}"></span>
+
+
+        </div>
+        <button type = "submit">Book</button>
+
+    </form>
+</div>
 </body>
 </html>

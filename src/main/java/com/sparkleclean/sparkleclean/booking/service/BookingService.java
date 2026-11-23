@@ -49,6 +49,6 @@ public class BookingService {
         bookingRepository.save(booking);
     }
     public List<Booking> getByUser (UUID userId){
-        return bookingRepository.findUserIdOrderByScheduledAtAsc(userId);
+        return bookingRepository.findAllByUserId(userId);
     }
 }

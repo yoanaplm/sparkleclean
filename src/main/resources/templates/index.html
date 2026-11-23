@@ -13,6 +13,7 @@
 <div th:if="${session.userId != null}">
     <p th:text="'Welcome back, ' + ${session.username}"></p>
    <a th:href = "@{/services}">Browse services</a>
+    <a th:href = "@{/bookings}">My bookings</a>
     <a th:if="${session.role.name() == 'ADMIN'}" th:href="@{/admin/services}">Manage services</a>
     <form th:action="@{/logout}" method="post">
         <button type="submit">Logout</button>

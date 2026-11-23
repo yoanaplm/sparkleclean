@@ -1,6 +1,7 @@
 package com.sparkleclean.sparkleclean.web.controller;
 
 import com.sparkleclean.sparkleclean.cleaningservice.service.CleaningServiceService;
+import com.sparkleclean.sparkleclean.web.dto.BookingDto;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +29,10 @@ public class ServiceController {
 
     }
     @GetMapping("/{id}")
-    public ModelAndView setServiceDetailsPage(@PathVariable UUID id){
+    public ModelAndView getServiceDetailsPage(@PathVariable UUID id){
         ModelAndView modelAndView = new ModelAndView("service-details");
         modelAndView.addObject("service",cleaningServiceService.getById(id));
+      modelAndView.addObject("bookingDto", new BookingDto());
         return  modelAndView;
     }
 }

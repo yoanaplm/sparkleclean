@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings</title>
+
+</head>
+<body>
+<h1>My Bookings</h1>
+<a th:href="@{/}">Home</a>
+<a th:href="@{/services}">Browse services</a>
+<p th:if="${bookings.isEmpty()}">No bookings found</p>
+<table th:unless ="${bookings.isEmpty()}">
+    <tr>
+        <th>Service</th>
+        <th>Date and time</th>
+        <th>Address</th>
+        <th>Status</th>
+
+    </tr>
+    <tr th:each="booking : ${bookings}">
+    <td th:text="${booking.cleaningService.name}"></td>
+    <td th:text="${#temporals.format(booking.scheduledAt, 'dd.MM.yyyy HH:mm')}"></td>
+    <td th:text="${booking.address}"></td>
+    <td th:text="${booking.status}"></td>
+    </tr>
+
+</table>
+</body>
+
+</html>
